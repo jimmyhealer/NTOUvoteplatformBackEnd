@@ -1,4 +1,3 @@
-import announcement
 from rest_framework.decorators import api_view
 from rest_framework import status
 from django.http import HttpResponse, JsonResponse
@@ -47,5 +46,5 @@ def Announcement_detail(request, pk, format = None):
         return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
-        Announcement.delete()
+        announcement.delete()
         return HttpResponse(status = status.HTTP_204_NO_CONTENT)

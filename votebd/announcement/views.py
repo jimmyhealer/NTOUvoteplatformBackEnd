@@ -1,22 +1,23 @@
 from rest_framework.decorators import api_view
 from rest_framework import status
-from django.http import HttpResponse, JsonResponse
+from rest_framework.views import APIView
+from django.http import HttpResponse, JsonResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 from announcement.models import Announcement
 from announcement.serializers import AnnouncementSerializer
 
 @api_view(['GET', 'POST'])
 @csrf_exempt
-def Announcement_list(request, format = None):
+class AnnouncementList(APIView):
     """
     List all code snippets, or create a new snippet.
     """
-    if request.method == 'GET':
+    def get(self, request):
         announcement = Announcement.objects.all()
         serializer = AnnouncementSerializer(announcement, many = True)
         return JsonResponse(serializer.data, safe = False)
 
-    elif request.method == 'POST':
+    def post(self, request):
         serializer = AnnouncementSerializer(data = request.data)
         if serializer.is_valid():
             serializer.save()
@@ -25,26 +26,30 @@ def Announcement_list(request, format = None):
 
 @api_view(['GET', 'PUT', 'DELETE'])
 @csrf_exempt
-def Announcement_detail(request, pk, format = None):
+class AnnouncementDetail(APIView):
     """
     Retrieve, update or delete a code Announcement.
     """
-    try:
-        announcement = Announcement.objects.get(pk = pk)
-    except Announcement.DoesNotExist:
-        return HttpResponse(status = status.HTTP_404_NOT_FOUND)
+    def get_object(self, pk):
+        try:
+            return Announcement.objects.get(pk = pk)
+        except Announcement.DoesNotExist:
+            return Http404
 
-    if request.method == 'GET':
+    def get(self, request, pk):
+        announcement = self.get_object(pk)
         serializer = AnnouncementSerializer(announcement)
         return JsonResponse(serializer.data)
 
-    elif request.method == 'PUT':
+    def put(self, request, pk):
+        announcement = self.get_object(pk)
         serializer = AnnouncementSerializer(announcement, data = request.data)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
-    elif request.method == 'DELETE':
+    def delete(self, request, pk):
+        announcement = self.get_object(pk)
         announcement.delete()
         return HttpResponse(status = status.HTTP_204_NO_CONTENT)

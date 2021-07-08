@@ -13,7 +13,6 @@
 </template>
 
 <script>
-
 export default {
   name: "ordered-table",
   props: {
@@ -25,14 +24,14 @@ export default {
   data() {
     return {
       selected: [],
-      users: [],
+      users: []
     };
   },
   mounted() {
-    axios.get('http://localhost:3000/OrderedTable_data').then((res)=>{
+    axios.get("http://localhost:3000/OrderedTable_data").then(res => {
       //console.log(res.data);
-      this.users=res.data;
-    })
-  },
+      this.users = res.data;
+    });
+  }
 };
 </script>

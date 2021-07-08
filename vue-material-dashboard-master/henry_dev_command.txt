@@ -1,0 +1,7 @@
+=====for data base server=====
+cd json
+json-server data.json
+
+=====for vue live server=====
+npm install
+npm run dev

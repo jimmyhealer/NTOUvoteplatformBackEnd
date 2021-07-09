@@ -24,14 +24,15 @@ class UserManager(BaseUserManager):
     return user
 
 class User(AbstractBaseUser):
-  id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+  id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
   email = models.EmailField(
     verbose_name = 'email address',
     max_length = 255,
     unique = True,
   )
-  name = models.CharField(max_length=32, blank=False, null=False)
-  is_active = models.BooleanField(default=True)
+  name = models.CharField(max_length = 32, blank = False, null = False)
+  is_active = models.BooleanField(default = True)
 
   objects = UserManager()
 

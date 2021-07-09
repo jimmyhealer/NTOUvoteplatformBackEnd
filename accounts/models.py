@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractBaseUser
 
 class User(AbstractBaseUser):
   username = models.TextField(unique = True)
+  password = models.CharField(max_length = 128)
   name = models.CharField(max_length = 50)
 
 class Group(models.Model):

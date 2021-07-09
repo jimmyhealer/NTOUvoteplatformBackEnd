@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'announcement.apps.AnnouncementConfig',
-    'accounts.apps.AccountsConfig',
 
     'rest_framework',
 ]
@@ -107,7 +106,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
+AUTHENTICATION_BACKENDS = ['votebd.core.auth.CheckPasswordBackend']
 AUTH_USER_MODEL = 'core.User'
 
 # Internationalization

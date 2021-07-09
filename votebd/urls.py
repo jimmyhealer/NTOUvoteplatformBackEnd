@@ -7,6 +7,6 @@ router = routers.DefaultRouter()
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('', include('announcement.urls')),
-    path('', include('accounts.urls')),
+    path('', include('votebd.core.urls')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

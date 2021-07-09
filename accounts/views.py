@@ -13,10 +13,9 @@ def loginAPI(data):
 class UserLoginAPI(APIView):
 
   def post(self, request):
-    print(request.data)
     user = loginAPI(request.data)
     if user:
-      auth.login = loginAPI(request, user)
+      auth.login(user)
       return Response(user)
     else:
       return Response({'message': 'Login Error'})

@@ -4,3 +4,4 @@ migrations
 .vscode
 tests
 pytest.ini
+db.sqlite3

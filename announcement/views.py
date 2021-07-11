@@ -6,6 +6,9 @@ from django.views.decorators.csrf import csrf_exempt
 from announcement.models import Announcement
 from announcement.serializers import AnnouncementSerializer
 
+from votebd.core.decorators import login_required
+
+
 
 class AnnouncementList(APIView):
     """
@@ -16,6 +19,7 @@ class AnnouncementList(APIView):
         serializer = AnnouncementSerializer(announcement, many = True)
         return Response(serializer.data)
 
+    @login_required
     def post(self, request, format = None):
         serializer = AnnouncementSerializer(data = request.data)
         if serializer.is_valid():
@@ -39,6 +43,7 @@ class AnnouncementDetail(APIView):
         serializer = AnnouncementSerializer(announcement)
         return Response(serializer.data)
 
+    @login_required
     def put(self, request, pk, format = None):
         announcement = self.get_object(pk)
         serializer = AnnouncementSerializer(announcement, data = request.data)
@@ -47,6 +52,7 @@ class AnnouncementDetail(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
+    @login_required
     def delete(self, request, pk, format = None):
         announcement = self.get_object(pk)
         announcement.delete()

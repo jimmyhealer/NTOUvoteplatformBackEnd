@@ -6,16 +6,16 @@ from django.contrib.auth.models import (
 )
 
 class UserManager(BaseUserManager):
-  
-  def create_user(self, email, name, password=None):
+
+  def create_user(self, username, name, password = None):
     """
-    Create and save a user with the given email, name and password.
+    Create and save a user with the given username, name and password.
     """
-    if not email:
-      raise ValueError('Users must have an email address')
+    if not username:
+      raise ValueError('Users must have an username')
 
     user = self.model(
-      email = self.normalize_email(email),
+      username = username,
       name = name
     )
 
@@ -26,18 +26,14 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser):
 
   id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
-  email = models.EmailField(
-    verbose_name = 'email address',
-    max_length = 255,
-    unique = True,
-  )
+  username = models.CharField(max_length = 32, blank = True, unique = True)
   name = models.CharField(max_length = 32, blank = False, null = False)
   is_active = models.BooleanField(default = True)
 
   objects = UserManager()
 
-  USERNAME_FIELD = 'email'
+  USERNAME_FIELD = 'username'
   REQUIRED_FIELDS = ['name']
 
   def __str__(self):
-    return self.email
+    return self.username

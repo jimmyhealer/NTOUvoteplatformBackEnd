@@ -1,0 +1,14 @@
+data = {
+    'title': 'test',
+    'content': 'test',
+    'choices': [
+        {
+            'choice_text': 'agree',
+            'votes': 0
+        }
+    ],
+    'announcement': {
+        'title': 'test',
+        'content': 'test',
+    }
+} 

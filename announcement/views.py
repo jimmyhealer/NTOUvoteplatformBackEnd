@@ -1,26 +1,35 @@
-from rest_framework import status
+# from rest_framework import status
 # from rest_framework.views import APIView
+from rest_framework import serializers, status
+from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.http import Http404
+
+from django.http import Http404, HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.views.generic.edit import CreateView
+
 from announcement.models import Announcement
 from announcement.serializers import AnnouncementSerializer
 
 from votebd.core.decorators import login_required
 
 from utils.api import APIView
+from votebd.core.models import User
+from votebd.core.serializers import UserListSerializers
+
 
 class AnnouncementList(APIView):
     """
     List all code snippets, or create a new snippet.
     """
+
     def get(self, request, format = None):
         announcement = Announcement.objects.all()
         serializer = AnnouncementSerializer(announcement, many = True)
         return self.success(serializer.data)
 
     @login_required
-    def post(self, request, format = None):
+    def post(self, request):
         serializer = AnnouncementSerializer(data = request.data)
         if serializer.is_valid():
             serializer.save()

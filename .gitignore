@@ -1,7 +1,9 @@
-venv
+/venv
+/env
 __pycache__
 migrations
 .vscode
 tests
 pytest.ini
 db.sqlite3
+test.txt

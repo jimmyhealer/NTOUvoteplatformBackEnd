@@ -1,5 +1,5 @@
 from rest_framework import status
-from rest_framework.views import APIView
+# from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import Http404
 from django.views.decorators.csrf import csrf_exempt
@@ -8,7 +8,7 @@ from announcement.serializers import AnnouncementSerializer
 
 from votebd.core.decorators import login_required
 
-
+from utils.api import APIView
 
 class AnnouncementList(APIView):
     """
@@ -17,7 +17,7 @@ class AnnouncementList(APIView):
     def get(self, request, format = None):
         announcement = Announcement.objects.all()
         serializer = AnnouncementSerializer(announcement, many = True)
-        return Response(serializer.data)
+        return self.success(serializer.data)
 
     @login_required
     def post(self, request, format = None):

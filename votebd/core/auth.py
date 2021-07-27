@@ -11,8 +11,8 @@ from .decorators import login_required
 from votebd.core import services
 
 from django.contrib.auth.backends import BaseBackend
-from django.urls.conf import path
-from django.contrib.auth import authenticate, login
+from django.urls.conf import include, path
+from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.http import require_http_methods
 
 class CheckPasswordBackend(BaseBackend):
@@ -54,6 +54,13 @@ class UserSigninAPI(APIView):
     serializers = UserListSerializers(user, many = True)
     return Response(serializers.data)
 
+class UserSignoutAPI(APIView):
+  
+  @login_required
+  def post(self, request):
+    logout(request)
+    return Response("logout")
+
 class SignUpAPI(APIView):
   
   def post(self, request):
@@ -75,5 +82,6 @@ class SignUpAPI(APIView):
 
 urlpatterns = [
   path("signin/", UserSigninAPI.as_view()),
-  path('signup/', SignUpAPI.as_view())
+  path('signout/', UserSignoutAPI.as_view()),
+  path('signup/', SignUpAPI.as_view()),
 ]

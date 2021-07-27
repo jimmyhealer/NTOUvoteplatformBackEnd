@@ -2,6 +2,7 @@ import functools
 from rest_framework.response import Response
 
 
+
 class BasePermissionDecorator(object):
   def __init__(self, func):
     self.func = func

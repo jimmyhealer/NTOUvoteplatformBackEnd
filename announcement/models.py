@@ -1,5 +1,4 @@
 from django.db import models
-from voteEvent.models import VoteEvent
 
 # Create your models here.
 class Announcement(models.Model):

@@ -6,3 +6,4 @@ migrations
 tests
 pytest.ini
 db.sqlite3
+test.txt

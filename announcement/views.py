@@ -2,18 +2,20 @@ from announcement.models import Announcement
 from announcement.serializers import AnnouncementSerializer
 
 from votebd.core.decorators import login_required
-from utils.api import APIView
+from utils.api import APIView, validate_serializer
 
 class AnnouncementList(APIView):
     """
     List all code snippets, or create a new snippet.
     """
-
     def get(self, request, format = None):
+        # request = {limit offset}
         announcement = Announcement.objects.all()
-        serializer = AnnouncementSerializer(announcement, many = True)
-        return self.success(data = serializer.data)
+        data = self.paginate_data(request, announcement, AnnouncementSerializer)
+        # serializer = AnnouncementSerializer(announcement, many = True)
+        return self.success(data = data)
 
+    @validate_serializer(AnnouncementSerializer)
     @login_required
     def post(self, request):
         serializer = AnnouncementSerializer(data = request.data)

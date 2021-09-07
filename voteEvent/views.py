@@ -1,13 +1,19 @@
+<<<<<<< HEAD
 from rest_framework.pagination import PageNumberPagination
 
 from utils.api import APIView
+=======
+from utils.api import APIView, validate_serializer
+>>>>>>> master
 from votebd.core.decorators import login_required
 from voteEvent.serializers import VoteEventSerializer
 from voteEvent.models import VoteEvent
 from voteEvent.pagination import PaginationHandlerMixin
 
+
 # Create your views here.
 
+<<<<<<< HEAD
 class BasicPagination(PageNumberPagination):
     page_size = 5
     page_size_query_param = 'limit'
@@ -28,7 +34,16 @@ class VoteEventList(APIView, PaginationHandlerMixin):
         else:
             serializer = VoteEventSerializer(all_voteEvent, many = True)
         return self.success(data = serializer.data)
+=======
+class VoteEventList(APIView):
+    
+    def get(self, request):
+        voteEvent = VoteEvent.objects.all()
+        data = self.paginate_data(request, voteEvent, VoteEventSerializer)
+        return self.success(data = data)
+>>>>>>> master
 
+    @validate_serializer(VoteEventSerializer)
     @login_required
     def post(self, request):
         serializer = VoteEventSerializer(data = request.data)
@@ -63,7 +78,11 @@ class VoteEventDetail(APIView):
     def delete(self, request, pk):
         voteEvent = self.get_object(pk)
         voteEvent.delete()
+<<<<<<< HEAD
         return self.success(status = 204)
         
         
         
+=======
+        return self.success(status = 204)
+>>>>>>> master

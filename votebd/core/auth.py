@@ -10,6 +10,8 @@ from .serializers import UserListSerializers
 from .decorators import login_required
 from votebd.core import services
 
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.utils.decorators import method_decorator
 from django.contrib.auth.backends import BaseBackend
 from django.urls.conf import include, path
 from django.contrib.auth import authenticate, login, logout
@@ -77,6 +79,7 @@ class SignUpAPI(APIView):
     
     return Response('Internal Server Error', status = 500)
   
+  @method_decorator(ensure_csrf_cookie)
   def get(self, request):
     return Response('Test')
 

@@ -59,7 +59,7 @@ class UserSigninAPI(APIView):
 class UserSignoutAPI(APIView):
   
   @login_required
-  def post(self, request):
+  def get(self, request):
     logout(request)
     return Response("logout")
 

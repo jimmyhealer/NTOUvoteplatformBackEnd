@@ -33,6 +33,8 @@ class APIView(APIView):
       msg = f"{key}: {error}"
     return self.error(status = 400, err=f"invalid-{key}", msg=msg)
 
+<<<<<<< HEAD
+=======
   def paginate_data(self, request, query_set, object_serializer=None):
     try:
       limit = int(request.GET.get("limit", "10"))
@@ -56,6 +58,7 @@ class APIView(APIView):
             "total": count}
     return data
 
+>>>>>>> master
 
 def validate_serializer(serializer):
     """

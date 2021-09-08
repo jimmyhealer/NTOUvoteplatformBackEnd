@@ -2,15 +2,7 @@ from announcement.models import Announcement
 from announcement.serializers import AnnouncementSerializer
 
 from votebd.core.decorators import login_required
-<<<<<<< HEAD
-<<<<<<< HEAD
-from utils.api import APIView
-=======
 from utils.api import APIView, validate_serializer
->>>>>>> master
-=======
-from utils.api import APIView, validate_serializer
->>>>>>> 2376c10851dfade191c4e66057ac685625261e6e
 
 class AnnouncementList(APIView):
     """
@@ -19,20 +11,9 @@ class AnnouncementList(APIView):
     def get(self, request):
         # request = {limit offset}
         announcement = Announcement.objects.all()
-<<<<<<< HEAD
-<<<<<<< HEAD
-        serializer = AnnouncementSerializer(announcement, many = True)
-        return self.success(data = serializer.data)
-=======
         data = self.paginate_data(request, announcement, AnnouncementSerializer)
         # serializer = AnnouncementSerializer(announcement, many = True)
         return self.success(data = data)
->>>>>>> master
-=======
-        data = self.paginate_data(request, announcement, AnnouncementSerializer)
-        # serializer = AnnouncementSerializer(announcement, many = True)
-        return self.success(data = data)
->>>>>>> 2376c10851dfade191c4e66057ac685625261e6e
 
     @validate_serializer(AnnouncementSerializer)
     @login_required

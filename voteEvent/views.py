@@ -13,7 +13,7 @@ class VoteEventList(APIView):
         data = self.paginate_data(request, voteEvent, VoteEventSerializer)
         return self.success(data = data)
 
-    @validate_serializer(VoteEventSerializer)
+    #@validate_serializer(VoteEventSerializer)
     @login_required
     def post(self, request):
         serializer = VoteEventSerializer(data = request.data)

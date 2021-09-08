@@ -33,11 +33,6 @@ class APIView(APIView):
       msg = f"{key}: {error}"
     return self.error(status = 400, err=f"invalid-{key}", msg=msg)
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 2376c10851dfade191c4e66057ac685625261e6e
   def paginate_data(self, request, query_set, object_serializer=None):
     try:
       limit = int(request.GET.get("limit", "10"))
@@ -60,11 +55,6 @@ class APIView(APIView):
     data = {"results": results,
             "total": count}
     return data
-
-<<<<<<< HEAD
->>>>>>> master
-=======
->>>>>>> 2376c10851dfade191c4e66057ac685625261e6e
 
 def validate_serializer(serializer):
     """

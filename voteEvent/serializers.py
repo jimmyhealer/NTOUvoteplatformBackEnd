@@ -60,4 +60,3 @@ class VoteEventSerializer(serializers.ModelSerializer):
                 inv_choice.votes += choice_data.get('votes', inv_choice.votes)
                 inv_choice.save()
         return instance
-

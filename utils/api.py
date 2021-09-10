@@ -56,7 +56,6 @@ class APIView(APIView):
             "total": count}
     return data
 
-
 def validate_serializer(serializer):
     """
     @validate_serializer(TestSerializer)

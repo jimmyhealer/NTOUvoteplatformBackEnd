@@ -38,8 +38,9 @@ class UserSigninAPI(APIView):
     '''
     user Signin API
     '''
-    body = json.loads(request.body.decode())
-    user = authenticate(request, username = body["username"], password = body["password"])
+    # body = json.loads(request.body.decode())
+    data = request.data
+    user = authenticate(request, username = data["username"], password = data["password"])
 
     if user:
       login(request, user)

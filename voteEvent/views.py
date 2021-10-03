@@ -12,7 +12,6 @@ class VoteEventList(APIView):
     
     def get(self, request):
         publish_voteEvents = VoteEvent.objects.filter(published__lte = timezone.now()) 
-        print(publish_voteEvents)
         for publish_voteEvent in publish_voteEvents:
             publish_voteEvent.publish_post()
             publish_voteEvent.save()

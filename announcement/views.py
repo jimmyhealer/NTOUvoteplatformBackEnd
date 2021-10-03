@@ -15,12 +15,12 @@ class AnnouncementList(APIView):
         # serializer = AnnouncementSerializer(announcement, many = True)
         return self.success(data = data)
 
-    @validate_serializer(AnnouncementSerializer)
+    #@validate_serializer(AnnouncementSerializer)
     @login_required
     def post(self, request):
         serializer = AnnouncementSerializer(data = request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(author = request.user)
             return self.success(data = serializer.data, status = 201)
         return self.error(msg = serializer.errors, status = 400)
 

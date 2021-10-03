@@ -1,12 +1,15 @@
-# NTOUvoteplatform
-Creat account:<br />
-  `http POST 127.0.0.1:8000/auth/signup/ username="test" name="test" password="test"`<br />
-Login command: <br />
-  `http --session=loggin-in -a test:test method url request` <br />
-Create vote event: <br />
-  1.http:
-  `http --session=loggin-in -a test:test POST 127.0.0.1:8000/vote/ title="test" content="test" questions:='[{"title": "test", "choices": '['{"choice_text": "agree", "vote": "0"}']'}, {"title": "sdjflkasjdf", "choices": '['{"choice_text": "disagree", "vote": "0"}']'}]'`<br />
-  2.postman:
+"# NTOUvoteplatform
+## Creat account:<br />
+  `http POST 127.0.0.1:8000/auth/signup/ username="test" name="test" password="test"`
+    <br />
+## Login command:<br />
+  `http --session=loggin-in -a test:test method url request`
+    <br />
+## Create vote event:<br />
+  1.http:<br />
+  `http --session=loggin-in -a test:test POST 127.0.0.1:8000/vote/ title="test" content="test" questions:='[{"title": "test", "choices": '['{"choice_text": "agree", "vote": "0"}']'}, {"title": "sdjflkasjdf", "choices": '['{"choice_text": "disagree", "vote": "0"}']'}]'`
+    <br />
+  2.postman:<br />
   ```json
   {
     "title": "test",

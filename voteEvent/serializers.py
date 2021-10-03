@@ -6,7 +6,7 @@ class ChoiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Choice
         fields = ['id', 'choice_text', 'votes']
-        depth = 1
+        depth = 2
 
 class QuestionSerializer(serializers.ModelSerializer):
     
@@ -15,7 +15,7 @@ class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
         fields = ['id', 'title', 'choices']
-        depth = 2
+        depth = 1
 
 class VoteEventSerializer(serializers.ModelSerializer):
     
@@ -23,11 +23,10 @@ class VoteEventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = VoteEvent
-        fields = ['id', 'title', 'content', 'created', 'questions']
+        fields = ['id', 'title', 'content', 'created', 'questions', 'isPublish', 'published']
 
     def create(self, validated_data):
         questions_data = validated_data.pop('question_set')
-        print(questions_data)
         voteEvent = VoteEvent.objects.create(**validated_data)
         for question_data in questions_data:
             choices_data = question_data.pop('choice_set')
@@ -41,7 +40,7 @@ class VoteEventSerializer(serializers.ModelSerializer):
         instance.title = validated_data.get('title', instance.title)
         instance.content = validated_data.get('content', instance.content)
         instance.save()
-
+        
         questions_data = validated_data.get('question_set')
 
         for question_data in questions_data:

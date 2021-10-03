@@ -1,4 +1,6 @@
+from datetime import datetime
 from django.db import models
+from votebd.core.models import User
 
 # Create your models here.
 
@@ -7,7 +9,9 @@ class VoteEvent(models.Model):
     title = models.CharField(max_length = 1024, blank = True)
     content = models.TextField(blank = True)
     created = models.DateTimeField(auto_now_add = True)
-    #author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
+    published = models.DateTimeField(auto_now_add = True)
+    isPublish = models.BooleanField(default = True)
+    author = models.ForeignKey(User, on_delete = models.CASCADE, default = None)
 
     class Meta:
         ordering = ['created']
@@ -17,6 +21,10 @@ class VoteEvent(models.Model):
         
     def __unicode__(self):
         return self.title
+    
+    def publish_post(self):
+        self.isPublish = True
+        return self.isPublish
 
 class Question(models.Model):
 
@@ -41,8 +49,3 @@ class Choice(models.Model):
 
     def __unicode__(self):
         return self.choice_text
-
-# class QuestionChoice(models.Model):
-    
-#     question = models.ForeignKey(Question)
-#     choice = models.ForeignKey(Choice)

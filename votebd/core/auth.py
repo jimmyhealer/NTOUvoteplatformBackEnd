@@ -10,12 +10,9 @@ from .serializers import UserListSerializers
 from .decorators import login_required
 from votebd.core import services
 
-from django.views.decorators.csrf import ensure_csrf_cookie
-from django.utils.decorators import method_decorator
 from django.contrib.auth.backends import BaseBackend
-from django.urls.conf import include, path
+from django.urls.conf import path
 from django.contrib.auth import authenticate, login, logout
-from django.views.decorators.http import require_http_methods
 
 class CheckPasswordBackend(BaseBackend):
   def authenticate(
@@ -63,7 +60,7 @@ class UserSignoutAPI(APIView):
     logout(request)
     return Response("logout")
 
-class SignUpAPI(APIView):
+class UserSignUpAPI(APIView):
   
   def post(self, request):
     data = request.data
@@ -79,12 +76,20 @@ class SignUpAPI(APIView):
     
     return Response('Internal Server Error', status = 500)
   
-  @method_decorator(ensure_csrf_cookie)
   def get(self, request):
     return Response('Test')
+
+class UserDetailView(APIView):
+    
+    @login_required
+    def get(self, request):
+        user = User.objects.get(username = request.data['username'])
+        serializer = UserListSerializers(user)
+        return self.success(data = serializer.data)
 
 urlpatterns = [
   path("signin/", UserSigninAPI.as_view()),
   path('signout/', UserSignoutAPI.as_view()),
-  path('signup/', SignUpAPI.as_view()),
+  path('signup/', UserSignUpAPI.as_view()),
+    path('profile/', UserDetailView.as_view()) 
 ]

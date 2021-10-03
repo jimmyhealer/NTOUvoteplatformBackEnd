@@ -2,6 +2,8 @@ from utils.api import APIView, validate_serializer
 from votebd.core.decorators import login_required
 from voteEvent.serializers import VoteEventSerializer
 from voteEvent.models import VoteEvent
+from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -9,8 +11,13 @@ from voteEvent.models import VoteEvent
 class VoteEventList(APIView):
     
     def get(self, request):
-        voteEvent = VoteEvent.objects.all()
-        data = self.paginate_data(request, voteEvent, VoteEventSerializer)
+        publish_voteEvents = VoteEvent.objects.filter(published__lte = timezone.now()) 
+        print(publish_voteEvents)
+        for publish_voteEvent in publish_voteEvents:
+            publish_voteEvent.publish_post()
+            publish_voteEvent.save()
+        voteEvents = VoteEvent.objects.all()
+        data = self.paginate_data(request, voteEvents, VoteEventSerializer)
         return self.success(data = data)
 
     #@validate_serializer(VoteEventSerializer)
@@ -18,7 +25,7 @@ class VoteEventList(APIView):
     def post(self, request):
         serializer = VoteEventSerializer(data = request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(author = request.user)
             return self.success(data = serializer.data, status = 201)
         return self.error(msg = serializer.errors, status = 400)
 

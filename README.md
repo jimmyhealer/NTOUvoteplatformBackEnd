@@ -1,4 +1,4 @@
-"# NTOUvoteplatform
+# NTOUvoteplatform
 ## Creat account:<br />
   `http POST 127.0.0.1:8000/auth/signup/ username="test" name="test" password="test"`
     <br />

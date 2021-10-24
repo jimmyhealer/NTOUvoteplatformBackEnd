@@ -9,10 +9,8 @@ class AnnouncementList(APIView):
     List all code snippets, or create a new snippet.
     """
     def get(self, request):
-        # request = {limit offset}
         announcement = Announcement.objects.all()
         data = self.paginate_data(request, announcement, AnnouncementSerializer)
-        # serializer = AnnouncementSerializer(announcement, many = True)
         return self.success(data = data)
 
     #@validate_serializer(AnnouncementSerializer)

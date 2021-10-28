@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 
 
 from .models import User
-from .serializers import UserListSerializers
+from .serializers import UserSerializers
 from .decorators import login_required
 from votebd.core import services
 
@@ -35,7 +35,7 @@ class UserSigninAPI(APIView):
     '''
     user Signin API
     '''
-    body = json.loads(request.body.decode())
+    body = request.data
     user = authenticate(request, username = body["username"], password = body["password"])
 
     if user:
@@ -50,7 +50,7 @@ class UserSigninAPI(APIView):
     get user list
     '''
     user = User.objects.all()
-    serializers = UserListSerializers(user, many = True)
+    serializers = UserSerializers(user, many = True)
     return Response(serializers.data)
 
 class UserSignoutAPI(APIView):
@@ -84,7 +84,7 @@ class UserDetailView(APIView):
     @login_required
     def get(self, request):
         user = User.objects.get(username = request.data['username'])
-        serializer = UserListSerializers(user)
+        serializer = UserSerializers(user)
         return self.success(data = serializer.data)
 
 urlpatterns = [

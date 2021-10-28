@@ -10,6 +10,12 @@ class AnnouncementSerializer(serializers.ModelSerializer):
     model = Announcement
     fields = ['id', 'title', 'author', 'published_date']
 
+class AnnouncementSubmitSerializer(serializers.ModelSerializer): 
+
+  class Meta:
+    model = Announcement
+    fields = ['id', 'title', 'content', 'published_date']
+
 class AnnouncementDetailSerializer(serializers.ModelSerializer):
 
   author = UserSerializers()

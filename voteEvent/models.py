@@ -9,7 +9,8 @@ class VoteEvent(models.Model):
     title = models.CharField(max_length = 1024, blank = True)
     content = models.TextField(blank = True)
     created = models.DateTimeField(auto_now_add = True)
-    published = models.DateTimeField(default = timezone.now)
+    startTime = models.DateTimeField(default = timezone.now)
+    endTime = models.DateTimeField(default = timezone.now)
     isPublish = models.BooleanField(default = True)
     author = models.ForeignKey(User, on_delete = models.CASCADE, default = None)
 

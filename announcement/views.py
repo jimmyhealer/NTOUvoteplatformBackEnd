@@ -1,5 +1,5 @@
 from announcement.models import Announcement
-from announcement.serializers import AnnouncementSerializer
+from announcement.serializers import AnnouncementSerializer, AnnouncementSubmitSerializer, AnnouncementDetailSerializer
 
 from votebd.core.decorators import login_required
 from utils.api import APIView, validate_serializer
@@ -16,7 +16,7 @@ class AnnouncementList(APIView):
     #@validate_serializer(AnnouncementSerializer)
     @login_required
     def post(self, request):
-        serializer = AnnouncementSerializer(data = request.data)
+        serializer = AnnouncementSubmitSerializer(data = request.data)
         if serializer.is_valid():
             serializer.save(author = request.user)
             return self.success(data = serializer.data, status = 201)
@@ -35,13 +35,13 @@ class AnnouncementDetail(APIView):
 
     def get(self, request, pk, format = None):
         announcement = self.get_object(pk)
-        serializer = AnnouncementSerializer(announcement)
+        serializer = AnnouncementDetailSerializer(announcement)
         return self.success(data = serializer.data)
 
     @login_required
     def put(self, request, pk, format = None):
         announcement = self.get_object(pk)
-        serializer = AnnouncementSerializer(announcement, data = request.data)
+        serializer = AnnouncementDetailSerializer(announcement, data = request.data)
         if serializer.is_valid():
             serializer.save()
             return self.success(data = serializer.data)

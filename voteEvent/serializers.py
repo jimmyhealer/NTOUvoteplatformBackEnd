@@ -23,7 +23,7 @@ class VoteEventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = VoteEvent
-        fields = ['id', 'title', 'content', 'created', 'questions', 'isPublish', 'published']
+        fields = ['id', 'title', 'content', 'created', 'questions', 'isPublish', 'startTime', 'endTime']
 
     def create(self, validated_data):
         questions_data = validated_data.pop('question_set')

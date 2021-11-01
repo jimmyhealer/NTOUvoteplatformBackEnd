@@ -8,9 +8,6 @@ from django.contrib.auth.models import (
 class UserManager(BaseUserManager):
 
   def create_user(self, username, name, password = None):
-    """
-    Create and save a user with the given username, name and password.
-    """
     if not username:
       raise ValueError('Users must have an username')
 

@@ -9,18 +9,17 @@ class AnnouncementList(APIView):
     List all code snippets, or create a new snippet.
     """
     def get(self, request):
-        announcement = Announcement.objects.all()
+        announcement = Announcement.objects
+                        .filter(published_date__lte = timezone.now()).order_by('-published_date')
         data = self.paginate_data(request, announcement, AnnouncementSerializer)
         return self.success(data = data)
 
-    #@validate_serializer(AnnouncementSerializer)
+    @validate_serializer(AnnouncementSubmitSerializer)
     @login_required
     def post(self, request):
         serializer = AnnouncementSubmitSerializer(data = request.data)
-        if serializer.is_valid():
-            serializer.save(author = request.user)
-            return self.success(data = serializer.data, status = 201)
-        return self.error(msg = serializer.errors, status = 400)
+        serializer.save(author = request.user)
+        return self.success(data = serializer.data, status = 201)
 
 
 class AnnouncementDetail(APIView):

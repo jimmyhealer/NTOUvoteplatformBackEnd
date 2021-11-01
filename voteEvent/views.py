@@ -11,7 +11,11 @@ from django.views.decorators.csrf import csrf_exempt
 class VoteEventList(APIView):
     
     def get(self, request):
-        publish_voteEvents = VoteEvent.objects.filter(startTime__lte = timezone.now()) 
+        publish_voteEvents = 
+            VoteEvent.objects.filter(
+                Q(isPublish__exact = True or 
+                    endTime__gte = timezone.now() and startTime__lte = timezone.now())
+            ).order_by('-startTime')
         for publish_voteEvent in publish_voteEvents:
             publish_voteEvent.publish_post()
             publish_voteEvent.save()
